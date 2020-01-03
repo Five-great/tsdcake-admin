@@ -14,23 +14,23 @@
 
     <ul class="content">
    
-      <% for(var i = 0; i < goods_list.length; i++) { %>
+      <% for(var i = 0; i < data_list.length; i++) { %>
         <li class="vcard">
             <div class="vhead">
-                <a href="<%= goods_list[i].get('link') %>" target="_blank"
-                   rel="nofollow"> <%= goods_list[i].get('name') %></a>
-                <% var date = goods_list[i].get('createdAt') %>
+                <a href="<%= data_list[i].get('link') %>" target="_blank"
+                   rel="nofollow"> <%= data_list[i].get('name') %></a>
+                <% var date = data_list[i].get('createdAt') %>
                 <span class="spacer">•</span><span class="vtime"><%= dateFormat(date) %></span>
-                <% var url = domain + goods_list[i].get('url') + "#goods" %>
+                <% var url = domain + data_list[i].get('url') + "#goods" %>
                 <a href="<%= url %>">查看该产品链接</a>
             </div>
             
             <div class="vcomment">
-                <%- goods_list[i].get('detail') %>
+                <%- data_list[i].get('detail') %>
                   
             </div>
             <div class="check">
-                <a class="red" href="javascript:if(confirm('确认要删除吗?'))location='/goodsList/delete?id=<%= goods_list[i].get('objectId') %>'" rel="nofollow">删除</a><span class="spacer">•</span>
+                <a class="red" href="javascript:if(confirm('确认要删除吗?'))location='/goodsList/delete?id=<%= data_list[i].get('objectId') %>'" rel="nofollow">删除</a><span class="spacer">•</span>
             </div>
         </li>
         <% } %>
