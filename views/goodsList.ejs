@@ -35,23 +35,6 @@
         </li>
         <% } %>
         
-        
-         <% for(var i = 0; i < stop_data_list.length; i++) { %>
-        <li class="vcard">
-            <div class="vhead">
-            
-               <% var date = stop_data_list[i].get('createdAt') %>
-                <span class="spacer">•</span><span class="vtime"><%= dateFormat(date) %></span>
-              
-            </div>
-            <div class="vcomment">
-                <%- stop_data_list[i].get('name') %>
-            </div>
-            <div class="check">
-                <a class="red" href="javascript:if(confirm('确认要删除吗?'))location='/stop_data/delete?id=<%= stop_data_list[i].get('objectId') %>'" rel="nofollow">删除</a><span class="spacer">•</span>
-            </div>
-        </li>
-        <% } %>
     </ul>
 </div>
 </body>
