@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js -- "
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "akismet-api": "^3.0.0",

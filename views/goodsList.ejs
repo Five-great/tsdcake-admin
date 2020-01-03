@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="comment-main">
+    <div class="header">
+        <div class="title"><span><%= title %></span></div>
+
+        <div class="logout-wrapper"><a href="/logout">退出登录</a></div>
+    </div>
+
+    <ul class="content">
+   
+      <% for(var i = 0; i < goods_list.length; i++) { %>
+        <li class="vcard">
+            <div class="vhead">
+                <a href="<%= goods_list[i].get('link') %>" target="_blank"
+                   rel="nofollow"> <%= goods_list[i].get('name') %></a>
+                <% var date = goods_list[i].get('createdAt') %>
+                <span class="spacer">•</span><span class="vtime"><%= dateFormat(date) %></span>
+                <% var url = domain + goods_list[i].get('url') + "#goods" %>
+                <a href="<%= url %>">查看该产品链接</a>
+            </div>
+            
+            <div class="vcomment">
+                <%- goods_list[i].get('detail') %>
+                  
+            </div>
+            <div class="check">
+                <a class="red" href="javascript:if(confirm('确认要删除吗?'))location='/goodsList/delete?id=<%= goods_list[i].get('objectId') %>'" rel="nofollow">删除</a><span class="spacer">•</span>
+            </div>
+        </li>
+        <% } %>
+        
+        
+         <% for(var i = 0; i < stop_data_list.length; i++) { %>
+        <li class="vcard">
+            <div class="vhead">
+            
+               <% var date = stop_data_list[i].get('createdAt') %>
+                <span class="spacer">•</span><span class="vtime"><%= dateFormat(date) %></span>
+              
+            </div>
+            <div class="vcomment">
+                <%- stop_data_list[i].get('name') %>
+            </div>
+            <div class="check">
+                <a class="red" href="javascript:if(confirm('确认要删除吗?'))location='/stop_data/delete?id=<%= stop_data_list[i].get('objectId') %>'" rel="nofollow">删除</a><span class="spacer">•</span>
+            </div>
+        </li>
+        <% } %>
+    </ul>
+</div>
+</body>
+</html>

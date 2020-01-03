@@ -13,10 +13,6 @@ router.get('/', function (req, res, next) {
         qShopdata.descending('createdAt');
         qShopdata.limit(50);
         query.limit(50);
-       
-       
- 
-    
          query.find().then(function (results) {
            q1 = results;
         },function(err){
