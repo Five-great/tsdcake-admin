@@ -6,6 +6,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var AV = require('leanengine');
+var qiniu = require("qiniu"); 
+var config = require('./config');  
 
 // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
 require('./cloud');
@@ -32,7 +34,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(AV.Cloud.CookieSession({ secret: 'my secret', maxAge: 3600000, fetchUser: true }));
-
 app.get('/', function(req, res) {
     if (req.currentUser) {
         //console.log(req);
@@ -74,6 +75,55 @@ app.get('/logout', function(req, res) {
     res.clearCurrentUser(); // 从 Cookie 中删除用户
     res.redirect('/');
 });
+
+
+
+
+  
+//set app variable   
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+  res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.header("X-Powered-By",' 3.2.1')
+  if(req.method=="OPTIONS") res.send(200);/*让options请求快速返回*/
+  else  next();
+});  
+
+
+// app.use(express.static(__dirname + "/public"));  
+
+var accessKey = config.accessKey;
+var secretKey = config.secretKey;
+var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+app.post('/upload', function(req, res) {
+  console.log('接收的数据');
+  console.log(req.body.value);
+  var scopeVal = req.body.value;        // 接收传过来的上传空间 如test-demo, test-demo1等
+  // var scopeVal = 'test-demo'; 
+  var options = {
+    scope: scopeVal,
+  };
+  var putPolicy = new qiniu.rs.PutPolicy(options);
+  var uploadToken=putPolicy.uploadToken(mac);
+  var dataList = {
+    token : uploadToken,
+    bucketLists : config.bucket_lists
+  }
+  res.send(dataList);      // 依据传过来的上传空间生成token并返回
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.use(function(req, res, next) {
     // 如果任何一个路由都没有返回响应，则抛出一个 404 异常给后续的异常处理器
