@@ -37,8 +37,8 @@ app.use(AV.Cloud.CookieSession({ secret: 'my secret', maxAge: 3600000, fetchUser
 app.get('/', function(req, res) {
     if (req.currentUser) {
         //console.log(req);
-        
-        res.redirect('/goodsLsit');
+        res.redirect('/vue/index.html');
+        // res.redirect('/goodsLsit');
     } else {
        res.render('index');
         //res.redirect('/comments');

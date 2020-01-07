@@ -5,7 +5,7 @@ var AV = require('leanengine');
 AV.init({
   appId: process.env.LEANCLOUD_APP_ID,
   //appId: 'EP3f9yGusi4xzlXE4jzuRJJH-gzGzoHsz',
- appKey: process.env.LEANCLOUD_APP_KEY,
+  appKey: process.env.LEANCLOUD_APP_KEY,
   //appKey: 'bjW6N0jbEieK3JFMAVpG2HOq',
    masterKey: process.env.LEANCLOUD_APP_MASTER_KEY
   //masterKey: "couYSCxykEQ9yGwTmxTisnkS"
