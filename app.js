@@ -37,7 +37,7 @@ app.use(AV.Cloud.CookieSession({ secret: 'my secret', maxAge: 3600000, fetchUser
 app.get('/', function(req, res) {
     if (req.currentUser) {
         //console.log(req);
-        res.redirect('/vue/index.html');
+        res.redirect('./public/dist');
         // res.redirect('/goodsLsit');
     } else {
        res.render('index');
@@ -49,6 +49,7 @@ app.get('/', function(req, res) {
 // 可以将一类的路由单独保存在一个文件中
 app.use('/comments', require('./routes/comments'));
 app.use('/goodsList', require('./routes/goodsList'));
+// app.use('/vue', require('./routes/comments'));
 
 // 处理登录请求（可能来自登录界面中的表单）
 app.post('/login', function(req, res) {
@@ -57,7 +58,7 @@ app.post('/login', function(req, res) {
 
       AV.User.logIn(req.body.username, req.body.password).then(function(user) {
         res.saveCurrentUser(user); // 保存当前用户到 Cookie
-        res.redirect('/goodsList'); // 跳转到个人资料页面
+        res.redirect('./public/dist'); // 跳转到个人资料页面
       }, function(error) {
           //登录失败，跳转到登录页面
           res.redirect('/');
