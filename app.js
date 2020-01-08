@@ -58,7 +58,7 @@ app.post('/login', function(req, res) {
 
       AV.User.logIn(req.body.username, req.body.password).then(function(user) {
         res.saveCurrentUser(user); // 保存当前用户到 Cookie
-        res.redirect('/vue'); // 跳转到个人资料页面
+        // res.redirect('/vue'); // 跳转到个人资料页面
       }, function(error) {
           //登录失败，跳转到登录页面
           res.redirect('/');
