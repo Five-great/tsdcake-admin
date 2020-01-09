@@ -118,7 +118,8 @@ app.post('/upload', function(req, res) {
 
 
 app.post('/wxpostdata', function(req, res) {
-  console.log('接收的数据');
+  console.log('接收的数据ww');
+  console.log(req);
   console.log(req.body);
   axios.post(req.body.url,req.body.data).then(response => {
     let json = CircularJSON.stringify(response.data);
