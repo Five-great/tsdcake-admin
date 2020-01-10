@@ -123,11 +123,11 @@ app.post('/wxgetdata', function(req, res) {
   let rp = options =>
      new Promise((resolve,reject)=>{
        request(options,(error,res,body)=>{
-            if(error){reject(error)}
-            resolve(res)
+            if(error){reject(error);}
+            resolve(res);
           });
     });
-  let result = await rp({
+  let result = rp({
      url: req.body.url,
      method: req.body.method ||'POST',
      body: req.body.data? JSON.stringify(req.body.data):''
@@ -144,6 +144,7 @@ app.use(function(req, res, next) {
         next(err);
     }
 });
+
 // error handlers
 app.use(function(err, req, res, next) {
   if (req.timedout && req.headers.upgrade === 'websocket') {
