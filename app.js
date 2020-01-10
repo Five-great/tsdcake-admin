@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var AV = require('leanengine');
 var qiniu = require("qiniu"); 
 var config = require('./config');  
-var axios = require('axios'); // 请求api
+var request= require('request')
 
 // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
 require('./cloud');
@@ -117,36 +117,23 @@ app.post('/upload', function(req, res) {
 
 
 
-app.post('/wxpostdata', function(req, res) {
+app.post('/wxgetdata', function(req, res) {
   console.log('接收的数据ww');
   console.log(req.body);
-  axios.post(req.body.url,req.body.data).then(response => {
-    let json = CircularJSON.stringify(response.data);
-            res.send(json);
-  }).catch(err => {
-    console.log('axios occurs======================================================= ', err);
-  });
+  let rp = options =>
+     new Promise((resolve,reject)=>{
+       request(options,(error,res,body)=>{
+            if(error){reject(error)}
+            resolve(res)
+          });
+    });
+  let result = await rp({
+     url: req.body.url,
+     method: req.body.method ||'POST',
+     body: req.body.data? JSON.stringify(req.body.data):''
+  })
+  res.send((typeof result.body==='object')?result.body : JSON.parse(result.body));
 });
-
-app.post('/wxgetdata', function(req, res) {
-  console.log('接收的数据');
-  console.log(req.body);
-  axios.get(req.body.url).then(response => {
-    let json = CircularJSON.stringify(response.data);
-            res.send(json);
-  }).catch(err => {
-    console.log('axios occurs ', err);
-  });
-});
-
-
-
-
-
-
-
-
-
 
 
 app.use(function(req, res, next) {
