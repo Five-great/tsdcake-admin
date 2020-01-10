@@ -7,8 +7,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var AV = require('leanengine');
 var qiniu = require("qiniu"); 
-var config = require('./config');  
-var request= require('request')
+var config = require('./config'); 
+var multer  = require('multer') ;
+var upload = multer({ dest: 'uploads/'});
+var request= require('request');
 
 // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
 require('./cloud');
@@ -128,10 +130,12 @@ app.post('/wxpostdata', function(req, res) {
   })
 });
 
+app.use(upload.single('file')); //
 app.post('/wxfiledata', function(req, res) {
   console.log('接收的数据data');
-
-    request.post({url: 'https://api.weixin.qq.com/merchant/common/upload_img?access_token=29_ZU32NGNgFf_cQYFiJlt7qA4l0iZ80igtj5LZ9RemlLuDkmOfbSPVzSy6M_Qo2MNe1TqX8FIJ1ZLA8YfIc_sAeGIiuPfGic8r6UBDS_eRZph7CZWnXDERjzESOhoGOSjAEASAE&filename=test.png',formData: req.data}, function (error, response, body) {  
+  console.log(req.body);//获取到的age和name
+  console.log(req.file);//获取到的文件
+    request.post({url: 'https://api.weixin.qq.com/merchant/common/upload_img?access_token=29_ZU32NGNgFf_cQYFiJlt7qA4l0iZ80igtj5LZ9RemlLuDkmOfbSPVzSy6M_Qo2MNe1TqX8FIJ1ZLA8YfIc_sAeGIiuPfGic8r6UBDS_eRZph7CZWnXDERjzESOhoGOSjAEASAE&filename=test.png',formData: req.file}, function (error, response, body) {  
     if (!error && response.statusCode == 200) {
       //res.send((typeof body==='object')?body : JSON.parse(body));
       var cc=[req.file,body,req.data,res,response];
