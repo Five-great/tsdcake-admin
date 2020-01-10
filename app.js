@@ -131,7 +131,7 @@ app.post('/wxpostdata', function(req, res) {
 app.post('/wxfiledata', function(req, res) {
   console.log('接收的数据data');
   console.log(req.file);
-    request.post({url: 'https://api.weixin.qq.com/merchant/common/upload_img?'+req.query, formData: req.file}, function (error, response, body) {  
+    request.post({url: 'https://api.weixin.qq.com/merchant/common/upload_img?access_token=29_ZU32NGNgFf_cQYFiJlt7qA4l0iZ80igtj5LZ9RemlLuDkmOfbSPVzSy6M_Qo2MNe1TqX8FIJ1ZLA8YfIc_sAeGIiuPfGic8r6UBDS_eRZph7CZWnXDERjzESOhoGOSjAEASAE&filename=test.png', formData: req.file}, function (error, response, body) {  
      if(error) return '0';
     if (!error && response.statusCode == 200) {
       res.send((typeof body==='object')?body : JSON.parse(body));
