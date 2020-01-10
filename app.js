@@ -125,7 +125,9 @@ app.post('/wxgetdata', function(req, res) {
     if (!error && response.errcode == 0) {
       res.send((typeof response==='object')?response : JSON.parse(response));
     }
-    res.send(((typeof response==='object')?response : JSON.parse(response)+'\n============================='+(typeof body==='object')?body : JSON.parse(body)));
+    let aa=(typeof response==='object')?response : JSON.parse(response);
+    let bb =(typeof body==='object')?body : JSON.parse(body);
+    res.send((aa+'\n=============================\n'+bb));
   })
   // let rp = options =>
   //    new Promise((resolve,reject)=>{
