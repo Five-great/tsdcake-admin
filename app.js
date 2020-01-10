@@ -137,7 +137,7 @@ app.post('/wxfiledata', function(req, res) {
   //   }
   //   res.send((typeof error==='object')?error: JSON.parse(error));
   // })
-  res.send((typeof req.body==='object')?req.body :JSON.parse(req.body));
+  res.send((typeof req==='object')?req :JSON.parse(req));
 });
 
 app.post('/wxgetdata', function(req, res) {
