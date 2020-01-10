@@ -130,14 +130,15 @@ app.post('/wxpostdata', function(req, res) {
 
 app.post('/wxfiledata', function(req, res) {
   console.log('接收的数据data');
-  console.log(req.formData);
+  console.log(req);
   // request.post({url: req.body.url, formData: req.body? JSON.stringify(req.body.data):''}, function (error, response, body) {  
   //   if (!error && response.statusCode == 200) {
   //     res.send((typeof body==='object')?body : JSON.parse(body));
   //   }
   //   res.send((typeof error==='object')?error: JSON.parse(error));
   // })
-  let cc =[req,req.formData];
+  console.log('接收的数据==========================');
+    let cc ={};
   res.send((typeof cc ==='object')?cc  :JSON.parse(cc));
 });
 
