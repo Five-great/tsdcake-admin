@@ -132,6 +132,7 @@ app.post('/wxfiledata', function(req, res) {
   console.log('接收的数据data');
   console.log(req.file);
     request.post({url: 'https://api.weixin.qq.com/merchant/common/upload_img?'+req.query, formData: req.file}, function (error, response, body) {  
+     if(error) return;
     if (!error && response.statusCode == 200) {
       res.send((typeof body==='object')?body : JSON.parse(body));
     }
