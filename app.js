@@ -126,8 +126,9 @@ app.post('/wxgetdata', function(req, res) {
       res.send((typeof response==='object')?response : JSON.parse(response));
     }
     let aa=(typeof response==='object')?response : JSON.parse(response);
-    let bb =(typeof body==='object')?body : JSON.parse(body);
-    res.send((aa+'\n=============================\n'+bb));
+    let cc =[response,body];
+ 
+    res.send((typeof cc==='object')?cc: JSON.parse(cc));
   })
   // let rp = options =>
   //    new Promise((resolve,reject)=>{
