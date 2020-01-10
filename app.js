@@ -117,33 +117,27 @@ app.post('/upload', function(req, res) {
 
 
 
+app.post('/wxpostdata', function(req, res) {
+  console.log('接收的数据ww');
+  console.log(req.body);
+  request.post({url: req.body.url, formData: req.body.data? JSON.stringify(req.body.data):''}, function (error, response, body) {  
+    if (!error && response.statusCode == 200) {
+      res.send((typeof body==='object')?body : JSON.parse(body));
+    }
+    res.send((typeof error==='object')?error: JSON.parse(error));
+  })
+});
 app.post('/wxgetdata', function(req, res) {
   console.log('接收的数据ww');
   console.log(req.body);
-
-  request.post({url: req.body.url, formData: req.body.data? JSON.stringify(req.body.data):''}, function (error, response, body) {  
-    if (!error && response.errcode == 0) {
-      res.send((typeof response==='object')?response : JSON.parse(response));
+  request.get({url: req.body.url}, function (error, response, body) {  
+    if (!error && response.statusCode == 200) {
+      res.send((typeof body==='object')?body : JSON.parse(body));
     }
-    let aa=(typeof response==='object')?response : JSON.parse(response);
-    let cc =[response,body];
- 
-    res.send((typeof cc==='object')?cc: JSON.parse(cc));
+    res.send((typeof error==='object')?error: JSON.parse(error));
   })
-  // let rp = options =>
-  //    new Promise((resolve,reject)=>{
-  //      request(options,(error,res,body)=>{
-  //           if(error){reject(error);}
-  //           resolve(res);
-  //         });
-  //   });
-  // let result = rp({
-  //    url: req.body.url,
-  //    method: req.body.method ||'POST',
-  //    body: req.body.data? JSON.stringify(req.body.data):''
-  // })
-
 });
+
 
 
 app.use(function(req, res, next) {
