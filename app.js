@@ -131,25 +131,25 @@ app.post('/wxpostdata', function(req, res) {
   })
 });
 
-app.use(upload.single('file')); //
-app.post('/wxfiledata', function(req, res) {
-  console.log('接收的数据data');
-  console.log(req.body);//获取到的age和name
-  console.log(req.file);//获取到的文件
-  var formData = {
-    media: fs.createReadStream(req.file.path)
-  }
-    request.post({url: 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='+req.query.access_token+'&type=image',formData: formData},  (error, response, body)=> {  
-    if (!error && response.statusCode == 200) {
-      //res.send((typeof body==='object')?body : JSON.parse(body));
-      var cc=[req.file,body,formData,response,red.body];
-      if(body.errcode==0){res.send((typeof body==='object')?body: JSON.parse(body));}
-      res.send((typeof cc==='object')?cc: JSON.parse(cc));
-    }
-    //res.send((typeof req.body==='object')?req.body: JSON.parse(req.body));
-    return 0;
-   });
-});
+// app.use(upload.single('file')); //
+// app.post('/wxfiledata', function(req, res) {
+//   console.log('接收的数据data');
+//   console.log(req.body);//获取到的age和name
+//   console.log(req.file);//获取到的文件
+//   var formData = {
+//     media: fs.createReadStream(req.file.path)
+//   }
+//     request.post({url: 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='+req.query.access_token+'&type=image',formData: formData},  (error, response, body)=> {  
+//     if (!error && response.statusCode == 200) {
+//       //res.send((typeof body==='object')?body : JSON.parse(body));
+//       var cc=[req.file,body,formData,response,red.body];
+//       if(body.errcode==0){res.send((typeof body==='object')?body: JSON.parse(body));}
+//       res.send((typeof cc==='object')?cc: JSON.parse(cc));
+//     }
+//     //res.send((typeof req.body==='object')?req.body: JSON.parse(req.body));
+//     return 0;
+//    });
+// });
 
 app.post('/wxgetdata', function(req, res) {
   console.log('接收的数据ww');
