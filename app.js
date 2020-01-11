@@ -10,6 +10,7 @@ var qiniu = require("qiniu");
 var config = require('./config'); 
 var multer  = require('multer') ;
 var upload = multer({ dest: 'uploads/'});
+var fs = require('fs');
 var request= require('request');
 
 // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
@@ -135,7 +136,10 @@ app.post('/wxfiledata', function(req, res) {
   console.log('接收的数据data');
   console.log(req.body);//获取到的age和name
   console.log(req.file);//获取到的文件
-    request.post({url: 'https://api.weixin.qq.com/merchant/common/upload_img?access_token='+req.query.access_token+'&filename='+req.query.filename,formData: req.file ? JSON.stringify(req.file):''}, function (error, response, body) {  
+  var formData = {
+    media: fs.createReadStream(req.file.path)
+  }
+    request.post({url: 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='+req.query.access_token+'&type=image',formData: formData}, function (error, response, body) {  
     if (!error && response.statusCode == 200) {
       //res.send((typeof body==='object')?body : JSON.parse(body));
       var cc=[req.file,body,req.body,response];
