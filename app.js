@@ -119,6 +119,16 @@ app.post('/upload', function(req, res) {
 });
 
 
+app.get('/token', function(req, res,next) {
+  //var scopeVal = req.body.value;        // 接收传过来的上传空间 如test-demo, test-demo1等
+  // var scopeVal = 'test-demo'; 
+  var options = {
+    scope: 'tsdcake',
+  };
+  var putPolicy = new qiniu.rs.PutPolicy(options);
+  res.send(putPolicy.uploadToken(mac));
+});
+
 
 // app.post('/wxpostdata', function(req, res) {
 //   console.log('接收的数据ww');
