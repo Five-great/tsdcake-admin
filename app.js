@@ -139,13 +139,15 @@ app.post('/wxfiledata', function(req, res) {
   var formData = {
     media: fs.createReadStream(req.file.path)
   }
-    request.post({url: 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='+req.query.access_token+'&type=image',formData: formData}, function (error, response, body) {  
+    request.post({url: 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='+req.query.access_token+'&type=image',formData: formData},  (error, response, body)=> {  
     if (!error && response.statusCode == 200) {
       //res.send((typeof body==='object')?body : JSON.parse(body));
-      var cc=[req.file,body,req.body,response];
+      var cc=[req.file,body,formData,response,red.body];
+      if(body.errcode==0){res.send((typeof body==='object')?body: JSON.parse(body));}
       res.send((typeof cc==='object')?cc: JSON.parse(cc));
     }
-    res.send((typeof req.body==='object')?req.body: JSON.parse(req.body));
+    //res.send((typeof req.body==='object')?req.body: JSON.parse(req.body));
+    return 0;
    });
 });
 
