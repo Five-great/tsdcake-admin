@@ -8,9 +8,9 @@ var bodyParser = require('body-parser');
 var AV = require('leanengine');
 var qiniu = require("qiniu"); 
 var config = require('./config'); 
-var multer  = require('multer') ;
-var upload = multer({ dest: 'uploads/'});
-var fs = require('fs');
+// var multer  = require('multer') ;
+// var upload = multer({ dest: 'uploads/'});
+// var fs = require('fs');
 var request= require('request');
 
 // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
