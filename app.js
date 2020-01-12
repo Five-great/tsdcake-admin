@@ -130,6 +130,13 @@ app.get('/token', function(req, res,next) {
 });
 
 
+app.use('/setUp', function(req, res) {
+  var url = 'https://www.baidu.com/' + req.url;
+  req.pipe(request(url)).pipe(res);
+});
+
+
+//github     img-token: 771c87bdb4f4d5c342839e3b89e8b2d7ad67628f
 // app.post('/wxpostdata', function(req, res) {
 //   console.log('接收的数据ww');
 //   console.log(req.body);
