@@ -141,7 +141,7 @@ app.post('/wxpostdata', function(req, res) {
   console.log('接收的数据wwpost');
   console.log(req.body);
   // req.pipe(request.post(req.body.url, {formData: req.body.data? JSON.stringify(req.body.data):''})).pipe(res);
-  request.post({url: req.body.url, formData: req.body.data? JSON.stringify(req.body.data):''}).then((error, response, body)=>{  
+  request.post({url: req.body.url, formData: req.body.data? JSON.stringify(req.body.data):''},(error, response, body)=>{  
     if (!error && response.statusCode == 200) {
         res.send((typeof body==='object')?body : JSON.parse(body));
     }
@@ -173,7 +173,7 @@ app.post('/wxpostdata', function(req, res) {
 app.post('/wxgetdata', function(req, res) {
   console.log('接收的数据ww');
   console.log(req.body);
-  request.get({url: req.body.url}).then((error, response, body)=>{  
+  request.get({url: req.body.url},(error, response, body)=>{  
     if (!error && response.statusCode == 200) {
       res.send((typeof body==='object')?body : JSON.parse(body));
     }
