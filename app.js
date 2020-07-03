@@ -135,7 +135,7 @@ app.post('/loginFun', function(req, res) {
       var _password=req.body.password;
       console.log(_password)
       var myQuery=new AV.Query(qClass);
-      myQuery.qualTo('username', ''+req.body.value);
+      myQuery.equalTo('username', ''+req.body.value);
       myQuery.first().then((resData) => {
           if(resData.get('password')&&resData.get('password')==_password){
               res.send((typeof resData==='object')?resData : JSON.parse(resData));
