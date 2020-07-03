@@ -133,13 +133,13 @@ app.get('/token', function(req, res,next) {
 app.post('/loginFun', function(req, res) {
       var qClass=''+req.body.className;
       var _password=req.body.password;
-      console.log(_password)
+      // console.log(_password)
       var myQuery=new AV.Query(qClass);
       myQuery.equalTo('username', ''+req.body.value);
       myQuery.first().then((resData) => {
           if(resData.get('password')&&resData.get('password')==_password){
               res.send((typeof resData==='object')?resData : JSON.parse(resData));
-          }else{ res.send('err')}
+          }else{ res.send('password err')}
       });
   
 });
@@ -218,6 +218,7 @@ app.use(function(err, req, res, next) {
   }
   if (req.timedout) {
     console.error('请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。', req.originalUrl, err.timeout);
+    res.send('503')
   }
   res.status(statusCode);
   // 默认不输出异常详情
