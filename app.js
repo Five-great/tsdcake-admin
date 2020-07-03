@@ -130,6 +130,21 @@ app.get('/token', function(req, res,next) {
 });
 
 
+app.get('/loginFun', function(req, res,next) {
+      var qClass=''+req.body.className;
+      var _password=req.body.password;
+      console.log(_password)
+      var myQuery=new AV.Query(qClass);
+      myQuery.qualTo('username', ''+req.body.value);
+      myQuery.find().then((resData) => {
+          if(resData.get('password')&&resData.get('password')==_password){
+              res.send((typeof resData==='object')?resData : JSON.parse(resData));
+          }else{ res.send('err')}
+      });
+  
+});
+
+
 app.use('/setUp', function(req, res) {
   var url = 'https://www.baidu.com/' + req.url;
   req.pipe(request(url)).pipe(res);
