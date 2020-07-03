@@ -30,13 +30,14 @@ exports.notice = (comment) => {
 
     // 站长自己发的评论不需要通知
     if (comment.get('mail') === process.env.TO_EMAIL 
-        || comment.get('mail') === process.env.SMTP_USER) {
+        || comment.get('mail') === process.env.SMTP_USER || comment.get('mail') === process.env.TO_EMAIL1 || comment.get('mail') === process.env.TO_EMAIL2 || comment.get('mail') === process.env.TO_EMAIL3) {
         return;
     }
 
     let emailSubject = '👉 咚！「' + process.env.SITE_NAME + '」上有新评论了';
     let emailContent =  noticeTemplate({
-                            siteName: process.env.SITE_NAME,
+                            siteLogo: process.env.SENDER_LOGO,
+                            siteName: process.env.SENDER_NAME,
                             siteUrl: process.env.SITE_URL,
                             name: comment.get('nick'),
                             text: comment.get('comment'),
@@ -45,7 +46,7 @@ exports.notice = (comment) => {
 
     let mailOptions = {
         from: '"' + process.env.SENDER_NAME + '" <' + process.env.SMTP_USER + '>',
-        to: process.env.TO_EMAIL ? process.env.TO_EMAIL : process.env.SMTP_USER,
+        to: process.env.SMTP_USER,
         subject: emailSubject,
         html: emailContent
     };
@@ -58,6 +59,76 @@ exports.notice = (comment) => {
         comment.save();
         console.log("收到一条评论, 已提醒站长");
     });
+
+    if(process.env.TO_EMAIL){
+        let mailOptions1 = {
+            from: '"' + process.env.SENDER_NAME + '" <' + process.env.SMTP_USER + '>',
+            to: process.env.TO_EMAIL,
+            subject: emailSubject,
+            html: emailContent
+        };
+    
+        transporter.sendMail(mailOptions1, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            comment.set('isNotified', true);
+            comment.save();
+            console.log("管理1号收到一条评论, 已提醒站长");
+        });
+    }
+    if(process.env.TO_EMAIL1){
+        let mailOptions2 = {
+            from: '"' + process.env.SENDER_NAME + '" <' + process.env.SMTP_USER + '>',
+            to: process.env.TO_EMAIL1,
+            subject: emailSubject,
+            html: emailContent
+        };
+    
+        transporter.sendMail(mailOptions2, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            // comment.set('isNotified', true);
+            // comment.save();
+            console.log("管理2号收到一条评论, 已提醒站长");
+        });
+    }
+
+    if(process.env.TO_EMAIL2){
+        let mailOptions3 = {
+            from: '"' + process.env.SENDER_NAME + '" <' + process.env.SMTP_USER + '>',
+            to: process.env.TO_EMAIL2,
+            subject: emailSubject,
+            html: emailContent
+        };
+    
+        transporter.sendMail(mailOptions3, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            // comment.set('isNotified', true);
+            // comment.save();
+            console.log("管理3号收到一条评论, 已提醒站长");
+        });
+    }  
+    if(process.env.TO_EMAIL3){
+        let mailOptions4 = {
+            from: '"' + process.env.SENDER_NAME + '" <' + process.env.SMTP_USER + '>',
+            to: process.env.TO_EMAIL3,
+            subject: emailSubject,
+            html: emailContent
+        };
+    
+        transporter.sendMail(mailOptions4, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            // comment.set('isNotified', true);
+            // comment.save();
+            console.log("管理4号收到一条评论, 已提醒站长");
+        });
+    }
 }
 
 
@@ -67,18 +138,20 @@ exports.send = (currentComment, parentComment)=> {
 
     // 站长被 @ 不需要提醒
     if (parentComment.get('mail') === process.env.TO_EMAIL 
-        || parentComment.get('mail') === process.env.SMTP_USER) {
+        || parentComment.get('mail') === process.env.SMTP_USER || parentComment.get('mail') === process.env.TO_EMAIL1 || parentComment.get('mail') === process.env.TO_EMAIL2 || parentComment.get('mail') === process.env.TO_EMAIL3) {
         return;
     }
-    let emailSubject = '👉 叮咚！「' + process.env.SITE_NAME + '」上有人@了你';
+    let emailSubject = '👉 叮咚！「' + process.env.SEND_NAME + '」上有人@了你';
     let emailContent = sendTemplate({
-                            siteName: process.env.SITE_NAME,
+                            siteLogo: process.env.SENDER_LOGO,
+                            siteName: process.env.SENDER_NAME,
                             siteUrl: process.env.SITE_URL,
                             pname: parentComment.get('nick'),
                             ptext: parentComment.get('comment'),
                             name: currentComment.get('nick'),
                             text: currentComment.get('comment'),
-                            url: process.env.SITE_URL + currentComment.get('url') + "#" + currentComment.get('pid')
+                            url: process.env.SITE_URL + currentComment.get('url') + "#" + currentComment.get('pid'),
+                            staticUrl: process.env.SITE_STATIC_URL + currentComment.get('pid')
                         });
     let mailOptions = {
         from: '"' + process.env.SENDER_NAME + '" <' + process.env.SMTP_USER + '>',
