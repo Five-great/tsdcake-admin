@@ -29,8 +29,8 @@ let sendTemplate = ejs.compile(fs.readFileSync(path.resolve(process.cwd(), 'temp
 exports.notice = (comment) => {
 
     // 站长自己发的评论不需要通知
-    if (comment.get('mail') === process.env.TO_EMAIL 
-        || comment.get('mail') === process.env.SMTP_USER || comment.get('mail') === process.env.TO_EMAIL1 || comment.get('mail') === process.env.TO_EMAIL2 || comment.get('mail') === process.env.TO_EMAIL3) {
+    if (comment.get('mail')&&(comment.get('mail') === process.env.TO_EMAIL 
+        || comment.get('mail') === process.env.SMTP_USER || comment.get('mail') === process.env.TO_EMAIL1 || comment.get('mail') === process.env.TO_EMAIL2 || comment.get('mail') === process.env.TO_EMAIL3)) {
         return;
     }
 
