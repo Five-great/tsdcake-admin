@@ -132,7 +132,7 @@ app.post('/sendCodeNumber', function(req, res) {
   // 为属性赋值
   _codeNum.set('code', codeNum);
   _codeNum.set('codeName', req.body.name);
-  _codeNum.set('Time', new Date().getTime());
+  _codeNum.set('Time', ''+new Date().getTime());
 
 // 将对象保存到云端
   _codeNum.save().then((res2) => {
@@ -147,13 +147,11 @@ app.post('/sendCodeNumber', function(req, res) {
     res.send(JSON.stringify(res2));      // 依据传过来的上传空间生成token并返回
          
     }, (error) => {
-      // 异常处理
-      console.log("1212err")
       res.send(JSON.stringify(error)); 
     });
     
     let queryCode = new AV.Query('codeNumber');
-    queryCode.lessThan('Time', codeTime);
+    queryCode.lessThan('Time', ''+codeTime);
     queryCode.find().then((res3) => {
       console.log("1212")
       console.log(res3)
