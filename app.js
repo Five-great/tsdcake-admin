@@ -121,7 +121,7 @@ app.post('/upload', function(req, res) {
 });
 
 
-app.post('/senCodeNumber', function(req, res) {
+app.post('/sendCodeNumber', function(req, res) {
   console.log(req.body);
   var codeNum="";
   for(var i=0;i<6;i++){
@@ -136,21 +136,26 @@ app.post('/senCodeNumber', function(req, res) {
 
 // 将对象保存到云端
   _codeNum.save().then((res2) => {
+    console.log("12122222222222")
     _mail.sendCode({
       mail: req.body.mail,
       name: req.body.name,
       codeNumber: codeNum
     })
+  
     console.log(res2)
     res.send(JSON.stringify(res2));      // 依据传过来的上传空间生成token并返回
          
     }, (error) => {
       // 异常处理
+      console.log("1212err")
+      res.send(JSON.stringify(error)); 
     });
     
     let queryCode = new AV.Query('codeNumber');
     queryCode.lessThan('Time', codeTime);
     queryCode.find().then((res3) => {
+      console.log("1212")
       console.log(res3)
       // students 是包含满足条件的 Student 对象的数组
     });
