@@ -140,8 +140,9 @@ app.post('/senCodeNumber', function(req, res) {
       mail: req.body.mail,
       name: req.body.name,
       codeNumber: codeNum
-  })
-    res.send(res2);      // 依据传过来的上传空间生成token并返回
+    })
+    console.log(res2)
+    res.send(JSON.stringify(res2));      // 依据传过来的上传空间生成token并返回
          
     }, (error) => {
       // 异常处理
@@ -149,8 +150,8 @@ app.post('/senCodeNumber', function(req, res) {
     
     let queryCode = new AV.Query('codeNumber');
     queryCode.lessThan('Time', codeTime);
-    queryCode.find().then((res2) => {
-      console.log(res2)
+    queryCode.find().then((res3) => {
+      console.log(res3)
       // students 是包含满足条件的 Student 对象的数组
     });
 
