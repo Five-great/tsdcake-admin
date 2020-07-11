@@ -132,7 +132,7 @@ app.post('/senCodeNumber', function(req, res) {
   // 为属性赋值
   _codeNum.set('code', codeNum);
   _codeNum.set('codeName', req.body.name);
-  _codeNum.set('Time', codeTime);
+  _codeNum.set('Time', new Date().getTime());
 
 // 将对象保存到云端
   _codeNum.save().then((res2) => {
@@ -148,8 +148,9 @@ app.post('/senCodeNumber', function(req, res) {
     });
     
     let queryCode = new AV.Query('codeNumber');
-    queryCode.lessThan('Time', new Date().getTime()-160);
-    query.find().then((res) => {
+    queryCode.lessThan('Time', codeTime);
+    queryCode.find().then((res2) => {
+      console.log(res2)
       // students 是包含满足条件的 Student 对象的数组
     });
 
