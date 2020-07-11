@@ -23,7 +23,35 @@ const transporter = nodemailer.createTransport(config);
 let templateName = process.env.TEMPLATE_NAME ?  process.env.TEMPLATE_NAME : "default";
 let noticeTemplate = ejs.compile(fs.readFileSync(path.resolve(process.cwd(), 'template', templateName, 'notice.ejs'), 'utf8'));
 let sendTemplate = ejs.compile(fs.readFileSync(path.resolve(process.cwd(), 'template', templateName, 'send.ejs'), 'utf8'));
+let codeTemplate = ejs.compile(fs.readFileSync(path.resolve(process.cwd(), 'template', templateName, 'sendCode.ejs'), 'utf8'));
 
+
+// 邮箱验证码
+exports.sendCode=(codeData)=>{
+    
+    let emailSubject = '👉 咚！「' + process.env.SITE_NAME + '」发来邮箱验证';
+    let emailContent =  codeTemplate({
+        siteLogo: process.env.SENDER_LOGO,
+        siteName: process.env.SENDER_NAME,
+        siteUrl: process.env.SITE_URL,
+        name: codeData.name,
+        codeNumber: codeData.codeNumber,
+        url: process.env.SITE_URL
+    });
+    let mailOptions = {
+        from: '"' + process.env.SENDER_NAME + '" <' + process.env.SMTP_USER + '>',
+        to: codeData.mail,
+        subject: emailSubject,
+        html: emailContent
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+
+    });
+}
 
 // 提醒站长
 exports.notice = (comment) => {

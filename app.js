@@ -6,6 +6,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var AV = require('leanengine');
+const _codeNumber = AV.Object.extend('codeNumber');
+const _mail = require('./utilities/send-mail');
 var qiniu = require("qiniu"); 
 var config = require('./config'); 
 // var multer  = require('multer') ;
@@ -116,6 +118,41 @@ app.post('/upload', function(req, res) {
     bucketLists : config.bucket_lists
   }
   res.send(dataList);      // 依据传过来的上传空间生成token并返回
+});
+
+
+app.post('/senCodeNumber', function(req, res) {
+  console.log(req.body);
+  var codeNum="";
+  for(var i=0;i<6;i++){
+    codeNum+=Math.floor(Math.random()*10);
+  }
+  let _codeNum= new _codeNumber()
+  let codeTime = req.body.codeTime?new Date().getTime()-parseInt(req.body.codeTime)*1000:new Date().getTime()-60*1000;
+  // 为属性赋值
+  _codeNum.set('code', codeNum);
+  _codeNum.set('codeName', req.body.name);
+  _codeNum.set('Time', codeTime);
+
+// 将对象保存到云端
+  _codeNum.save().then((res2) => {
+    _mail.sendCode({
+      mail: req.body.mail,
+      name: req.body.name,
+      codeNumber: codeNum
+  })
+    res.send(res2);      // 依据传过来的上传空间生成token并返回
+         
+    }, (error) => {
+      // 异常处理
+    });
+    
+    let queryCode = new AV.Query('codeNumber');
+    queryCode.lessThan('Time', new Date().getTime()-160);
+    query.find().then((res) => {
+      // students 是包含满足条件的 Student 对象的数组
+    });
+
 });
 
 
