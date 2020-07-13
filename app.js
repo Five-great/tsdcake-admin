@@ -128,7 +128,7 @@ app.post('/sendCodeNumber', function(req, res) {
     codeNum+=Math.floor(Math.random()*10);
   }
   let _codeNum= new _codeNumber()
-  let codeTime = req.body.codeTime?new Date().getTime()-parseInt(req.body.codeTime)*1000:new Date().getTime()-60*1000;
+  let codeTime = req.body.codeTime?new Date().getTime()-parseInt(req.body.codeTime)*1000:new Date().getTime()-60*60*1000;
   // 为属性赋值
   _codeNum.set('code', codeNum);
   _codeNum.set('codeName', req.body.name);
@@ -144,7 +144,7 @@ app.post('/sendCodeNumber', function(req, res) {
     })
   
     // console.log(res2)
-    res.send(JSON.stringify(res2));      // 依据传过来的上传空间生成token并返回
+    res.send(JSON.stringify({ objectId: res2.get("objectId")}));      // 依据传过来的上传空间生成token并返回
          
     }, (error) => {
       res.send(JSON.stringify(error)); 
@@ -154,7 +154,7 @@ app.post('/sendCodeNumber', function(req, res) {
     queryCode.lessThan('Time', ''+codeTime);
     queryCode.find().then((res3) => {
       // console.log("1212")
-      console.log(res3)
+      // console.log(res3)
       AV.Object.destroyAll(res3);
       // students 是包含满足条件的 Student 对象的数组
     });
