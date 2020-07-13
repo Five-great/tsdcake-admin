@@ -154,7 +154,8 @@ app.post('/sendCodeNumber', function(req, res) {
     queryCode.lessThan('Time', ''+codeTime);
     queryCode.find().then((res3) => {
       // console.log("1212")
-      // console.log(res3)
+      console.log(res3)
+      AV.Object.destroyAll(res3);
       // students 是包含满足条件的 Student 对象的数组
     });
 
