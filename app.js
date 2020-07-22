@@ -187,7 +187,7 @@ app.post('/sendMail', function(req, res) {
       html: req.body.html
     })
     if(err=='ok')res.send({ResultCode:0,ResultMessage:"代发邮件成功",ResultData:'ok'}); 
-    else res.send({ResultCode:1,ResultMessage:"代发邮件失败",ResultData:JSON.parse(JSON.stringify(err))}); 
+    else res.send({ResultCode:1,ResultMessage:"代发邮件失败",ResultData: err}); 
 });
 app.get('/token', function(req, res,next) {
   //var scopeVal = req.body.value;        // 接收传过来的上传空间 如test-demo, test-demo1等
