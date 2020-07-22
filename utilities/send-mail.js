@@ -56,12 +56,13 @@ exports.sendCode=(codeData)=>{
 // 代发邮箱
 exports.agentSendMail=(agentData)=>{
     
-    let emailSubject = '👉 咚！「' + process.env.SITE_NAME + '」发来邮箱验证';
-    let emailContent =  codeTemplate({
+    let emailSubject = '👉 咚！「' + process.env.SITE_NAME + '」发来通知公告';
+    let emailContent =  noticeTemplate({
         siteLogo: process.env.SENDER_LOGO,
         siteName: process.env.SENDER_NAME,
         siteUrl: process.env.SITE_URL,
-        name: agentData.name,
+        name: '你好',
+        text: '这是模板啊',
         url: process.env.SITE_URL
     });
     let mailOptions = {
@@ -73,7 +74,9 @@ exports.agentSendMail=(agentData)=>{
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            return console.log(error);
+            return error;
+        }else{
+            return 'ok';
         }
         
     });

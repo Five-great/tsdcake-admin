@@ -166,15 +166,15 @@ app.post('/getCodeNumber', function(req, res) {
   let queryCode = new AV.Query('codeNumber');
     if(req.body&&req.body.Id){
       queryCode.get(req.body.Id).then((res2)=>{
-        res.send(JSON.parse(JSON.stringify(res2)))
+        res.send({ResultCode:0,ResultMessage:"获取成功",ResultData:JSON.parse(JSON.stringify(res2))})
       })
     }
     else if(req.body&&req.body.codeNumber){
       queryCode.equalTo('code', ''+req.body.codeNumber);
       queryCode.find().then((res2) => {
-         res.send(JSON.parse(JSON.stringify(res2)))
+         res.send({ResultCode:0,ResultMessage:"获取成功",ResultData:JSON.parse(JSON.stringify(res2))})
       });
-    }else{ res.send({ResultCode:1,Message:"无有效参数"})}
+    }else{ res.send({ResultCode:1,ResultMessage:"无有效参数",ResultData:''})}
   
 
 });
@@ -186,7 +186,8 @@ app.post('/sendMail', function(req, res) {
       name: req.body.name,
       html: req.body.html
     })
-  res.send(JSON.stringify(err)); 
+    if(err=='ok')res.send({ResultCode:0,ResultMessage:"代发邮件成功",ResultData:'ok'}); 
+    else res.send({ResultCode:1,ResultMessage:"代发邮件失败",ResultData:JSON.parse(JSON.stringify(err))}); 
 });
 app.get('/token', function(req, res,next) {
   //var scopeVal = req.body.value;        // 接收传过来的上传空间 如test-demo, test-demo1等
