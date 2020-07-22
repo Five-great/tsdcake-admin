@@ -144,8 +144,7 @@ app.post('/sendCodeNumber', function(req, res) {
     })
   
     // console.log(res2)
-    res.send(JSON.stringify({ objectId: res2.get("objectId")}));      // 依据传过来的上传空间生成token并返回
-         
+    res.send(JSON.stringify({ objectId: res2.get("objectId")}));  
     }, (error) => {
       res.send(JSON.stringify(error)); 
     });
@@ -162,6 +161,33 @@ app.post('/sendCodeNumber', function(req, res) {
 });
 
 
+app.post('/getCodeNumber', function(req, res) {
+  // console.log(req.body);
+  let queryCode = new AV.Query('codeNumber');
+    if(req.body&&req.body.Id){
+      queryCode.get(req.body.Id).then((res2)=>{
+        res.send(JSON.parse(JSON.stringify(res2)))
+      })
+    }
+    else if(req.body&&req.body.codeNumber){
+      queryCode.equalTo('code', ''+req.body.codeNumber);
+      queryCode.find().then((res2) => {
+         res.send(JSON.parse(JSON.stringify(res2)))
+      });
+    }else{ res.send({ResultCode:1,Message:"无有效参数"})}
+  
+
+});
+
+app.post('/sendMail', function(req, res) {
+  
+  let err = _mail.agentSendMail({
+      mail: req.body.mail,
+      name: req.body.name,
+      html: req.body.html
+    })
+  res.send(JSON.stringify(err)); 
+});
 app.get('/token', function(req, res,next) {
   //var scopeVal = req.body.value;        // 接收传过来的上传空间 如test-demo, test-demo1等
   // var scopeVal = 'test-demo'; 

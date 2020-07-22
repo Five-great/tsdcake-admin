@@ -53,6 +53,32 @@ exports.sendCode=(codeData)=>{
     });
 }
 
+// 代发邮箱
+exports.agentSendMail=(agentData)=>{
+    
+    let emailSubject = '👉 咚！「' + process.env.SITE_NAME + '」发来邮箱验证';
+    let emailContent =  codeTemplate({
+        siteLogo: process.env.SENDER_LOGO,
+        siteName: process.env.SENDER_NAME,
+        siteUrl: process.env.SITE_URL,
+        name: agentData.name,
+        url: process.env.SITE_URL
+    });
+    let mailOptions = {
+        from: '"' + process.env.SENDER_NAME + '" <' + process.env.SMTP_USER + '>',
+        to: agentData.mail,
+        subject: emailSubject,
+        html: agentData.html?agentData.html:emailContent
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        
+    });
+}
+
 // 提醒站长
 exports.notice = (comment) => {
 
