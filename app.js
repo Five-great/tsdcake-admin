@@ -264,6 +264,36 @@ app.post('/wxgetdata', function(req, res) {
   })
 });
 
+app.post('/importFiles', function(req, res) {
+  console.log('接收的数据ww');
+  console.log(req.body);
+  let target = req.body.url || 'https://s12.aconvert.com/convert/convert-batch-win.php'
+  let requestData = {
+    file: req.body.fileUrl',
+    targetformat: req.body.targetformat || 'html',
+    code: req.body.code || '86000',
+    filelocation: 'online',
+    oAuthToken: '',
+ }
+  let _headers = req.body.headers || {
+            "authority": "s12.aconvert.com",
+            "path": "/convert/convert-batch-win.php",
+            'Content-Type':'multipart/form-data',
+            "origin": "https://www.aconvert.com",
+            "referer": "https://www.aconvert.com/"
+        }
+  request({
+        url: target,
+        method: "POST",
+        headers: _headers,
+        formData: requestData
+          },(error, response, body)=>{  
+    if (!error && response.statusCode == 200&&body.errcode==0) {
+      res.send((typeof body==='object')?body : JSON.parse(body));
+    }else res.send((typeof error==='object')?error: JSON.parse(error));
+  })
+});
+
 
 
 app.use(function(req, res, next) {
