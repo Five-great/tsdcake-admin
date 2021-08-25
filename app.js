@@ -269,7 +269,7 @@ app.post('/importFiles', function(req, res) {
   console.log(req.body);
   let target = req.body.url || 'https://s12.aconvert.com/convert/convert-batch-win.php'
   let requestData = {
-    file: req.body.fileUrl',
+    file: req.body.fileUrl,
     targetformat: req.body.targetformat || 'html',
     code: req.body.code || '86000',
     filelocation: 'online',
@@ -284,7 +284,7 @@ app.post('/importFiles', function(req, res) {
         }
   request({
         url: target,
-        method: "POST",
+        method:  req.body.type || "POST",
         headers: _headers,
         formData: requestData
           },(error, response, body)=>{  
