@@ -89,7 +89,7 @@ app.get('/logout', function(req, res) {
   
 //set app variable   
 app.all('*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", true);
   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   res.header("X-Powered-By",' 3.2.1')
@@ -286,7 +286,7 @@ app.post('/importFiles', function(req, res) {
         url: target,
         method:  req.body.type || "POST",
         headers: _headers,
-        timeout:  req.body.timeout || 120000,
+        timeout:  parstInt(req.body.timeout) || 240000,
         formData: requestData
           },(error, response, body)=>{  
     if (!error && response.statusCode == 200) {
