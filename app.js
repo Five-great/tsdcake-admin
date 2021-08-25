@@ -265,7 +265,7 @@ app.post('/wxgetdata', function(req, res) {
 });
 
 app.post('/importFiles', function(req, res) {
-  console.log('接收的数据ww');
+  
   console.log(req.body);
   let target = req.body.url || 'https://s12.aconvert.com/convert/convert-batch-win.php'
   let requestData = {
@@ -286,8 +286,11 @@ app.post('/importFiles', function(req, res) {
         url: target,
         method:  req.body.type || "POST",
         headers: _headers,
+        timeout:  req.body.timeout || 60000,
         formData: requestData
           },(error, response, body)=>{  
+       console.log(response);
+       console.log(body);
     if (!error && response.statusCode == 200&&body.errcode==0) {
       res.send((typeof body==='object')?body : JSON.parse(body));
     }else res.send((typeof error==='object')?error: JSON.parse(error));
