@@ -289,8 +289,7 @@ app.post('/importFiles', function(req, res) {
         timeout:  req.body.timeout || 120000,
         formData: requestData
           },(error, response, body)=>{  
-       console.log(body);
-    if (!error && response.statusCode == 200&&body.errcode==0) {
+    if (!error && response.statusCode == 200) {
       res.send((typeof body==='object')?body : JSON.parse(body));
     }else res.send((typeof error==='object')?error: JSON.parse(error));
   })
