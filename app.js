@@ -286,7 +286,7 @@ app.post('/importFiles', function(req, res) {
         url: target,
         method:  req.body.type || "POST",
         headers: _headers,
-        timeout:  parstInt(req.body.timeout) || 240000,
+        timeout:  parseInt(req.body.timeout) || 240000,
         formData: requestData
           },(error, response, body)=>{  
     if (!error && response.statusCode == 200) {
