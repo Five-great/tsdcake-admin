@@ -27,7 +27,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // 设置默认超时时间
-app.use(timeout('15s'));
+app.use(timeout('60s'));
 
 // 加载云引擎中间件
 app.use(AV.express());
@@ -263,7 +263,17 @@ app.post('/wxgetdata', function(req, res) {
     }else res.send((typeof error==='object')?error: JSON.parse(error));
   })
 });
-
+app.post('/daili', function(req, res) {
+  
+//   console.log();
+ 
+  request({req.body.opt,(error, response, body)=>{  
+     
+    if (!error && response.statusCode == 200) {
+      res.send(body);
+    }else res.send((typeof error==='object')?error: JSON.parse(error));
+  })
+});
 app.post('/importFiles', function(req, res) {
   
   console.log(req.body);
