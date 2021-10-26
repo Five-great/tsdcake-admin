@@ -267,7 +267,7 @@ app.post('/daili', function(req, res) {
   
 //   console.log();
  
-  request({req.body.opt,(error, response, body)=>{  
+  request(req.body.opt,(error, response, body)=>{  
      
     if (!error && response.statusCode == 200) {
       res.send(body);
